@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Keris Weton — Temukan Pusaka Sesuai Takdirmu</title>
+<meta name="description" content="Temukan keris pusaka yang paling cocok dan selaras dengan weton kelahiran Anda. Warisan spiritual leluhur Nusantara."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-light: #E8C97A;
+  --gold-dark: #8B6914;
+  --black: #0A0804;
+  --dark: #120E06;
+  --dark2: #1C1508;
+  --cream: #F5E6C8;
+  --cream2: #E8D4A8;
+  --red: #8B1A1A;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--black);
+  color:var(--cream);
+  font-family:'Lora',serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+.app-wrapper{
+  min-height:100vh;
+  background:
+    radial-gradient(ellipse at 20% 50%,rgba(201,168,76,.07) 0%,transparent 50%),
+    radial-gradient(ellipse at 80% 20%,rgba(139,26,26,.09) 0%,transparent 40%),
+    radial-gradient(ellipse at 50% 100%,rgba(201,168,76,.05) 0%,transparent 50%),
+    var(--black);
+  position:relative;
+}
+.app-wrapper::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(201,168,76,.015) 40px,rgba(201,168,76,.015) 41px),
+    repeating-linear-gradient(-45deg,transparent,transparent 40px,rgba(201,168,76,.015) 40px,rgba(201,168,76,.015) 41px);
+  pointer-events:none;z-index:0;
+}
+.container{max-width:680px;margin:0 auto;padding:20px 16px 80px;position:relative;z-index:1;}
+
+/* HEADER */
+.site-header{text-align:center;padding:44px 0 28px;animation:fadeDown .8s ease both;}
+.ornament{color:var(--gold);font-size:12px;letter-spacing:6px;text-transform:uppercase;opacity:.65;margin-bottom:14px;}
+.site-header h1{font-family:'Cinzel Decorative',cursive;font-size:clamp(26px,7vw,44px);font-weight:900;color:var(--gold);text-shadow:0 0 40px rgba(201,168,76,.45),0 2px 4px rgba(0,0,0,.8);line-height:1.2;margin-bottom:10px;}
+.site-header .subtitle{color:var(--cream2);font-size:12px;letter-spacing:3px;text-transform:uppercase;opacity:.55;}
+
+/* STEP INDICATOR */
+.step-indicator{display:flex;justify-content:center;gap:8px;margin-bottom:26px;}
+.step-dot{width:8px;height:8px;border-radius:50%;background:rgba(201,168,76,.2);transition:all .4s ease;}
+.step-dot.active{background:var(--gold);box-shadow:0 0 10px rgba(201,168,76,.5);width:28px;border-radius:4px;}
+.step-dot.done{background:var(--gold-dark);}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;gap:12px;margin:22px 0;}
+.divider-line{flex:1;height:1px;background:linear-gradient(to right,transparent,var(--gold-dark),transparent);}
+.divider-diamond{width:8px;height:8px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 8px rgba(201,168,76,.6);}
+
+/* CARD */
+.card{
+  background:linear-gradient(135deg,rgba(28,21,8,.97) 0%,rgba(18,14,6,.99) 100%);
+  border:1px solid rgba(201,168,76,.22);
+  border-radius:2px;
+  padding:30px 26px;
+  margin-bottom:18px;
+  box-shadow:0 0 0 1px rgba(201,168,76,.04) inset,0 20px 60px rgba(0,0,0,.65),0 0 80px rgba(201,168,76,.03);
+  animation:fadeUp .6s ease both;
+  position:relative;overflow:hidden;
+}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:.45;}
+.card-title{font-family:'Cinzel Decorative',cursive;font-size:16px;color:var(--gold);margin-bottom:5px;letter-spacing:1px;}
+.card-subtitle{font-size:11px;color:var(--cream2);opacity:.5;letter-spacing:2px;text-transform:uppercase;margin-bottom:24px;}
+
+/* BENEFIT */
+.benefit-list{list-style:none;margin-bottom:26px;}
+.benefit-list li{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(201,168,76,.07);font-size:14px;color:var(--cream2);line-height:1.65;}
+.benefit-list li .icon{color:var(--gold);font-size:16px;flex-shrink:0;margin-top:2px;}
+
+/* PRICE */
+.price-box{background:linear-gradient(135deg,rgba(201,168,76,.09),rgba(139,105,20,.05));border:1px solid rgba(201,168,76,.3);border-radius:2px;padding:20px;text-align:center;margin-bottom:24px;}
+.price-label{font-size:11px;color:var(--gold);letter-spacing:4px;text-transform:uppercase;margin-bottom:8px;opacity:.7;}
+.price-amount{font-family:'Cinzel Decorative',cursive;font-size:34px;color:var(--gold-light);text-shadow:0 0 20px rgba(201,168,76,.5);font-weight:700;}
+.price-note{font-size:12px;color:var(--cream2);opacity:.45;margin-top:6px;}
+
+/* PAYMENT */
+.payment-methods{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px;}
+.payment-card{border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:16px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(201,168,76,.03);}
+.payment-card:hover,.payment-card.active{border-color:var(--gold);background:rgba(201,168,76,.1);box-shadow:0 0 20px rgba(201,168,76,.15);}
+.pay-name{font-family:'Cinzel Decorative',cursive;font-size:15px;color:var(--gold);font-weight:700;margin-bottom:4px;}
+.pay-number{font-size:12px;color:var(--cream2);opacity:.65;letter-spacing:1px;}
+.pay-badge{display:inline-block;font-size:10px;background:rgba(201,168,76,.18);color:var(--gold);padding:3px 10px;border-radius:20px;margin-top:7px;letter-spacing:1px;}
+
+/* FORM */
+.form-group{margin-bottom:18px;}
+.form-label{display:block;font-size:11px;color:var(--gold);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;opacity:.8;}
+.form-input{width:100%;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:13px 16px;color:var(--cream);font-family:'Lora',serif;font-size:14px;outline:none;transition:border-color .3s;}
+.form-input:focus{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,168,76,.1);}
+.form-input::placeholder{color:rgba(245,230,200,.22);}
+.form-input[type="date"]{color-scheme:dark;}
+
+/* FILE UPLOAD */
+.file-upload{width:100%;background:rgba(201,168,76,.04);border:2px dashed rgba(201,168,76,.25);border-radius:2px;padding:26px;text-align:center;cursor:pointer;transition:all .3s;position:relative;}
+.file-upload:hover{border-color:var(--gold);background:rgba(201,168,76,.08);}
+.file-upload input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-icon{font-size:30px;margin-bottom:8px;}
+.upload-text{font-size:13px;color:var(--cream2);opacity:.6;}
+.upload-subtext{font-size:11px;color:var(--gold);opacity:.45;margin-top:5px;}
+.uploaded-preview{display:flex;align-items:center;gap:10px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;padding:12px 16px;font-size:13px;color:var(--gold);}
+
+/* BUTTON */
+.btn{width:100%;padding:16px;font-family:'Cinzel Decorative',cursive;font-size:12px;letter-spacing:2px;font-weight:700;border:none;border-radius:2px;cursor:pointer;transition:all .3s ease;position:relative;overflow:hidden;}
+.btn-primary{background:linear-gradient(135deg,var(--gold-dark) 0%,var(--gold) 50%,var(--gold-dark) 100%);color:var(--black);box-shadow:0 4px 20px rgba(201,168,76,.3);}
+.btn-primary:hover{box-shadow:0 6px 30px rgba(201,168,76,.5);transform:translateY(-1px);}
+.btn-primary:active{transform:translateY(0);}
+.btn-primary::after{content:'';position:absolute;top:-50%;left:-60%;width:30%;height:200%;background:rgba(255,255,255,.18);transform:skewX(-20deg);transition:left .5s ease;}
+.btn-primary:hover::after{left:130%;}
+.btn-secondary{background:transparent;border:1px solid rgba(201,168,76,.35);color:var(--gold);font-size:11px;margin-top:12px;}
+.btn-secondary:hover{border-color:var(--gold);background:rgba(201,168,76,.08);}
+
+/* WA NOTE */
+.wa-note{text-align:center;font-size:12px;color:var(--cream2);opacity:.5;margin-top:16px;line-height:1.8;}
+.wa-note a{color:var(--gold);opacity:.8;text-decoration:none;}
+.wa-note a:hover{opacity:1;}
+
+/* NEPTU */
+.neptu-display{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:20px 0;}
+.neptu-item{background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.12);border-radius:2px;padding:14px 10px;text-align:center;transition:all .4s ease;}
+.neptu-item.show{border-color:rgba(201,168,76,.45);background:rgba(201,168,76,.1);box-shadow:0 0 20px rgba(201,168,76,.1);}
+.n-label{font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;opacity:.6;margin-bottom:6px;}
+.n-value{font-family:'Cinzel Decorative',cursive;font-size:20px;color:var(--gold-light);font-weight:700;}
+.n-name{font-size:11px;color:var(--cream2);opacity:.6;margin-top:4px;}
+.neptu-total{text-align:center;padding:20px;background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.05));border:1px solid rgba(201,168,76,.3);border-radius:2px;margin-bottom:24px;animation:glow 2s ease-in-out infinite alternate;}
+.total-label{font-size:11px;color:var(--gold);letter-spacing:4px;text-transform:uppercase;opacity:.7;margin-bottom:8px;}
+.total-value{font-family:'Cinzel Decorative',cursive;font-size:42px;color:var(--gold-light);font-weight:900;text-shadow:0 0 30px rgba(201,168,76,.5);line-height:1;}
+.total-sub{font-size:12px;color:var(--gold);opacity:.55;margin-top:8px;letter-spacing:2px;}
+
+/* KERIS RESULT */
+.keris-hero{text-align:center;padding:36px 20px 26px;position:relative;}
+.keris-svg-wrap{width:100px;height:260px;margin:0 auto 22px;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 0 18px rgba(201,168,76,.45));}
+.keris-glow{margin:0 auto;width:70px;height:16px;background:radial-gradient(ellipse,rgba(201,168,76,.4),transparent);border-radius:50%;}
+.keris-name{font-family:'Cinzel Decorative',cursive;font-size:20px;color:var(--gold-light);font-weight:900;text-shadow:0 0 20px rgba(201,168,76,.4);margin-bottom:4px;}
+.keris-type{font-size:11px;color:var(--gold);letter-spacing:3px;text-transform:uppercase;opacity:.55;}
+.keris-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0;}
+.keris-info-item{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.13);border-radius:2px;padding:14px;}
+.ki-label{font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;opacity:.6;margin-bottom:6px;}
+.ki-value{font-size:14px;color:var(--cream);font-weight:600;line-height:1.4;}
+.ki-sub{font-size:12px;color:var(--cream2);opacity:.55;margin-top:5px;line-height:1.5;}
+.keris-message{background:rgba(139,26,26,.15);border:1px solid rgba(139,26,26,.3);border-left:3px solid var(--red);border-radius:2px;padding:20px;margin:16px 0;}
+.msg-jawa{font-style:italic;font-size:14px;color:var(--cream2);opacity:.82;line-height:1.8;margin-bottom:10px;}
+.msg-indo{font-size:13px;color:var(--cream2);opacity:.5;line-height:1.7;border-top:1px solid rgba(201,168,76,.1);padding-top:10px;}
+.khasiat-tags{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;}
+.khasiat-tag{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.22);color:var(--gold-light);font-size:11px;padding:5px 12px;border-radius:20px;letter-spacing:1px;}
+.section-label{font-size:11px;color:var(--gold);letter-spacing:3px;text-transform:uppercase;opacity:.6;margin-bottom:12px;}
+.perawatan-box{font-size:13px;color:var(--cream2);opacity:.72;line-height:1.85;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.1);border-radius:2px;padding:14px 16px;margin-bottom:20px;}
+
+/* SHARE */
+.share-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
+.share-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border:1px solid rgba(201,168,76,.2);border-radius:2px;background:rgba(201,168,76,.04);color:var(--cream2);font-family:'Lora',serif;font-size:12px;cursor:pointer;transition:all .3s;text-decoration:none;}
+.share-btn:hover{border-color:var(--gold);background:rgba(201,168,76,.1);color:var(--gold);}
+.share-btn.full{grid-column:1/-1;background:linear-gradient(135deg,rgba(201,168,76,.14),rgba(201,168,76,.07));border-color:rgba(201,168,76,.32);color:var(--gold);font-family:'Cinzel Decorative',cursive;font-size:11px;letter-spacing:2px;}
+
+/* LOADING */
+.loading-overlay{position:fixed;inset:0;background:rgba(10,8,4,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:200;gap:22px;}
+.spinner{width:56px;height:56px;border:2px solid rgba(201,168,76,.1);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;}
+.loading-text{font-family:'Cinzel Decorative',cursive;font-size:12px;color:var(--gold);letter-spacing:3px;opacity:.75;animation:pulse 1.5s ease-in-out infinite;}
+.loading-sub{font-size:10px;color:var(--gold);opacity:.35;letter-spacing:3px;}
+.loading-icon{font-size:46px;animation:float 1.5s ease-in-out infinite;}
+
+/* TOAST */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:rgba(201,168,76,.95);color:var(--black);font-family:'Cinzel Decorative',cursive;font-size:11px;letter-spacing:2px;padding:11px 26px;border-radius:2px;z-index:300;animation:fadeUp .3s ease both;white-space:nowrap;}
+
+/* HIDDEN */
+.hidden{display:none!important;}
+
+/* FOOTER */
+.footer{text-align:center;padding:30px 0 10px;font-size:11px;color:var(--cream2);opacity:.28;letter-spacing:2px;}
+
+/* ANIMATIONS */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:.45}50%{opacity:1}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes glow{from{box-shadow:0 0 10px rgba(201,168,76,.08)}to{box-shadow:0 0 28px rgba(201,168,76,.2)}}
+
+/* RESPONSIVE */
+@media(max-width:400px){
+  .payment-methods{grid-template-columns:1fr 1fr;}
+  .keris-info-grid{grid-template-columns:1fr;}
+  .share-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+<div class="app-wrapper">
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="site-header">
+    <div class="ornament">✦ Pusaka Nusantara ✦</div>
+    <h1>Keris Weton</h1>
+    <div class="subtitle">Temukan Pusaka Sesuai Takdirmu</div>
+  </div>
+
+  <!-- STEP INDICATOR -->
+  <div class="step-indicator">
+    <div class="step-dot active" id="dot0"></div>
+    <div class="step-dot" id="dot1"></div>
+    <div class="step-dot" id="dot2"></div>
+  </div>
+
+  <!-- ===== STEP 0: PAYMENT ===== -->
+  <div id="step0">
+    <div class="card">
+      <div class="card-title">Pintu Masuk Pusaka</div>
+      <div class="card-subtitle">Gerbang Pengetahuan Leluhur</div>
+      <ul class="benefit-list">
+        <li><span class="icon">⚔️</span><span>Mengetahui jenis keris yang paling cocok dan selaras dengan weton kelahiran Anda</span></li>
+        <li><span class="icon">🌟</span><span>Memahami pamor keris, khasiat, dan makna spiritualnya bagi perjalanan hidup Anda</span></li>
+        <li><span class="icon">🛡️</span><span>Mendapatkan panduan perawatan pusaka agar energinya selalu optimal melindungi Anda</span></li>
+        <li><span class="icon">📜</span><span>Menerima pesan dari penjaga pusaka dalam bahasa Jawa beserta terjemahannya</span></li>
+        <li><span class="icon">📱</span><span>Kartu digital pusaka yang bisa dibagikan ke semua media sosial sebagai kenang-kenangan</span></li>
+      </ul>
+      <div class="price-box">
+        <div class="price-label">Biaya Pembukaan Pintu</div>
+        <div class="price-amount">Rp 35.000</div>
+        <div class="price-note">Bayar sekali, akses selamanya</div>
+      </div>
+      <div class="section-label" style="margin-bottom:14px;">Pilih Metode Pembayaran</div>
+      <div class="payment-methods">
+        <div class="payment-card active" id="payDANA" onclick="selectPayment('DANA')">
+          <div class="pay-name">DANA</div>
+          <div class="pay-number">0822-1458-9789</div>
+          <div class="pay-badge">a/n Admin Pusaka</div>
+        </div>
+        <div class="payment-card" id="payOVO" onclick="selectPayment('OVO')">
+          <div class="pay-name">OVO</div>
+          <div class="pay-number">0822-1458-9789</div>
+          <div class="pay-badge">a/n Admin Pusaka</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nama Lengkap Anda</label>
+        <input class="form-input" type="text" id="inputNama" placeholder="Masukkan nama lengkap..."/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Upload Bukti Transfer</label>
+        <div class="file-upload" id="fileUploadArea">
+          <input type="file" accept="image/*" id="buktiFile" onchange="handleFile(event)"/>
+          <div class="upload-icon">📤</div>
+          <div class="upload-text">Ketuk untuk upload screenshot transfer</div>
+          <div class="upload-subtext">JPG, PNG, atau WEBP</div>
+        </div>
+        <div class="uploaded-preview hidden" id="uploadedPreview">
+          <span>📎</span><span id="uploadedName">File siap dikirim</span>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="handlePayment()">✦ Kirim Bukti &amp; Buka Gerbang ✦</button>
+      <div class="wa-note">
+        Verifikasi dilakukan admin dalam 1×24 jam.<br/>
+        Konfirmasi cepat via <a href="https://wa.me/6282214589789" target="_blank">WhatsApp Admin ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STEP 1: WETON ===== -->
+  <div id="step1" class="hidden">
+    <div class="card">
+      <div class="card-title">Input Weton Anda</div>
+      <div class="card-subtitle">Masukkan Tanggal Kelahiran</div>
+      <div style="text-align:center;padding:14px 0 22px;color:var(--cream2);font-size:14px;line-height:1.8;opacity:.75;">
+        Selamat datang, <strong id="greetNama" style="color:var(--gold)"></strong>.<br/>
+        Pintu pusaka telah terbuka untuk Anda.<br/>
+        Masukkan tanggal lahir untuk menghitung weton.
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tanggal Lahir</label>
+        <input class="form-input" type="date" id="inputTanggal" onchange="hitungWeton()" max=""/>
+      </div>
+      <div id="wetonResult" class="hidden">
+        <div class="neptu-display">
+          <div class="neptu-item show">
+            <div class="n-label">Hari</div>
+            <div class="n-value" id="rHariNeptu">—</div>
+            <div class="n-name" id="rHariNama">—</div>
+          </div>
+          <div class="neptu-item show">
+            <div class="n-label">Pasaran</div>
+            <div class="n-value" id="rPasaranNeptu">—</div>
+            <div class="n-name" id="rPasaranNama">—</div>
+          </div>
+          <div class="neptu-item show">
+            <div class="n-label">Total</div>
+            <div class="n-value" id="rTotalNeptu" style="font-size:22px;color:var(--gold-light)">—</div>
+            <div class="n-name">Neptu</div>
+          </div>
+        </div>
+        <div class="neptu-total">
+          <div class="total-label">Weton Anda</div>
+          <div class="total-value" id="rWetonFull">—</div>
+          <div class="total-sub" id="rNeptuSub">—</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="handleWeton()">✦ Temukan Keris Pusaka Saya ✦</button>
+    </div>
+  </div>
+
+  <!-- ===== STEP 2: RESULT ===== -->
+  <div id="step2" class="hidden">
+    <div class="card" id="resultCard">
+      <div class="keris-hero">
+        <div style="font-size:11px;color:var(--gold);letter-spacing:4px;text-transform:uppercase;opacity:.6;margin-bottom:8px;">Pusaka untuk <span id="rNamaUser"></span></div>
+        <div style="font-size:12px;color:var(--cream2);opacity:.48;margin-bottom:24px;" id="rWetonSub"></div>
+        <div class="keris-svg-wrap" id="kerisSVGwrap"></div>
+        <div class="keris-glow"></div>
+        <div class="keris-name" id="rKerisNama"></div>
+        <div class="keris-type" id="rKerisJenis"></div>
+      </div>
+      <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
+      <div class="keris-info-grid">
+        <div class="keris-info-item" style="grid-column:1/-1">
+          <div class="ki-label">Pamor</div>
+          <div class="ki-value" id="rPamor"></div>
+          <div class="ki-sub" id="rMaknaPamor"></div>
+        </div>
+      </div>
+      <div class="section-label">Khasiat Utama</div>
+      <div class="khasiat-tags" id="rKhasiat"></div>
+      <div style="margin-top:20px;">
+        <div class="section-label">Cara Merawat Pusaka</div>
+        <div class="perawatan-box" id="rPerawatan"></div>
+      </div>
+      <div>
+        <div class="section-label">Pesan Penjaga Pusaka</div>
+        <div class="keris-message">
+          <div class="msg-jawa" id="rPesanJawa"></div>
+          <div class="msg-indo" id="rPesanIndo"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHARE CARD -->
+    <div class="card">
+      <div class="card-title">Bagikan Pusaka Anda</div>
+      <div class="card-subtitle">Share ke Semua Platform</div>
+      <div class="share-grid">
+        <button class="share-btn" onclick="shareWA()"><span>💬</span> WhatsApp</button>
+        <button class="share-btn" onclick="shareTwitter()"><span>✕</span> Twitter / X</button>
+        <button class="share-btn" onclick="shareFB()"><span>📘</span> Facebook</button>
+        <button class="share-btn" onclick="copyLink()"><span>🔗</span> Salin Link</button>
+        <button class="share-btn full" onclick="copyCard()">✦ Salin Teks Kartu Pusaka ✦</button>
+      </div>
+      <div class="wa-note" style="margin-top:16px;">
+        Untuk Instagram: salin teks kartu di atas, lalu buat story atau post baru.
+      </div>
+    </div>
+
+    <button class="btn btn-secondary" onclick="resetWeton()">← Cek Weton Lain</button>
+  </div>
+
+  <div class="footer">✦ KERIS WETON · PUSAKA NUSANTARA ✦</div>
+</div><!-- /container -->
+
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay hidden" id="loadingOverlay">
+  <div class="loading-icon">⚔️</div>
+  <div class="spinner"></div>
+  <div class="loading-text" id="loadingText">Memverifikasi...</div>
+  <div class="loading-sub">Mohon Tunggu Sejenak</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast hidden" id="toastEl"></div>
+</div><!-- /app-wrapper -->
+
+<script>
+// ===== DATA =====
+const HARI_NEPTU = {0:{nama:'Minggu',neptu:5},1:{nama:'Senin',neptu:4},2:{nama:'Selasa',neptu:3},3:{nama:'Rabu',neptu:7},4:{nama:'Kamis',neptu:8},5:{nama:'Jumat',neptu:6},6:{nama:'Sabtu',neptu:9}};
+const PASARAN = [{nama:'Legi',neptu:5},{nama:'Pahing',neptu:9},{nama:'Pon',neptu:7},{nama:'Wage',neptu:4},{nama:'Kliwon',neptu:8}];
+
+const KERIS_DB = [
+  {range:[7,9],nama:'Tilam Upih',jenis:'Keris Luk 3 — Tangguh Majapahit',pamor:'Wos Wutah',maknaPamor:'Beras Tumpah — lambang kemakmuran dan kecukupan sandang pangan',khasiat:['Ketenangan Jiwa','Rumah Tangga Harmonis','Perlindungan Keluarga','Ketenteraman Batin'],perawatan:'Rendam dalam air bunga setaman setiap malam Jumat Kliwon, simpan di tempat bersih dan harum.',pesan_jawa:'Siro iku cahya kang padhang, kang bisa madhangi peteng ing sekitarmu.',pesan_indo:'Engkau adalah cahaya yang terang, yang mampu menerangi kegelapan di sekitarmu.',color:'#3A7A6B',luk:3},
+  {range:[10,12],nama:'Sabuk Inten',jenis:'Keris Luk 5 — Tangguh Tuban',pamor:'Adeg-adeg',maknaPamor:'Berdiri Tegak — lambang kewibawaan dan keteguhan pendirian',khasiat:['Kewibawaan Tinggi','Kepemimpinan','Disegani Banyak Orang','Karier Cemerlang'],perawatan:'Gosok dengan minyak cendana setiap bulan purnama, bungkus dengan kain beludru hitam.',pesan_jawa:'Siro bakal dadi ratu ing atasing uripmu dhewe, yen siro wani ngadeg kanthi jejeg.',pesan_indo:'Engkau akan menjadi raja atas hidupmu sendiri, jika engkau berani berdiri dengan tegak.',color:'#8B5A10',luk:5},
+  {range:[13,15],nama:'Sengkelat',jenis:'Keris Luk 13 — Tangguh Demak',pamor:'Beras Wutah',maknaPamor:'Padi Berlimpah — lambang rezeki yang mengalir tanpa henti dari segala penjuru',khasiat:['Rezeki Melimpah','Usaha Lancar','Dijauhkan dari Kemiskinan','Berkah Berlipat'],perawatan:'Warangan setiap 2 tahun sekali, simpan menghadap kiblat di tempat yang tidak terkena sinar matahari langsung.',pesan_jawa:'Rejekimu kaya banyu ing segara, ora bakal sat selawase urip yen siro tansah eling lan syukur.',pesan_indo:'Rezekim adalah seperti air di samudra, tidak akan pernah kering selama hidupmu jika engkau selalu ingat dan bersyukur.',color:'#1A4A8A',luk:13},
+  {range:[16,17],nama:'Condong Campur',jenis:'Keris Luk 7 — Tangguh Singasari',pamor:'Kulit Semangka',maknaPamor:'Pelindung Sejati — lapisan yang kuat melindungi isi dari gangguan luar',khasiat:['Perlindungan Gaib','Menolak Sihir','Keselamatan dari Bahaya','Aura Kuat'],perawatan:'Bacakan doa keselamatan setiap malam, simpan di rumah dengan dupa cendana.',pesan_jawa:'Siro direksa dening kekuatan kang ora katon, dadi aja wedi ngadhepi cobaan opo wae.',pesan_indo:'Engkau dilindungi oleh kekuatan yang tidak terlihat, maka jangan takut menghadapi cobaan apapun.',color:'#5A1A7A',luk:7},
+  {range:[18,18],nama:'Jangkung Mayang',jenis:'Keris Luk 9 — Tangguh Pajajaran',pamor:'Sekar Jagad',maknaPamor:'Bunga Semesta — lambang keharmonisan dengan alam dan semesta raya',khasiat:['Keselamatan Perjalanan','Keberuntungan','Disukai Banyak Orang','Harmonis dengan Alam'],perawatan:'Setiap purnama letakkan di bawah cahaya bulan semalaman, bungkus dengan daun pandan wangi.',pesan_jawa:'Lakumu ing donya iki kaya angin kang bebas, nanging tansah bali marang asale.',pesan_indo:'Perjalananmu di dunia ini bagaikan angin yang bebas, namun selalu kembali pada asalnya.',color:'#1A6B3A',luk:9},
+  {range:[19,20],nama:'Brojol',jenis:'Keris Lurus — Tangguh Mataram',pamor:'Ron Pakis',maknaPamor:'Daun Pakis Mengurai — lambang kemudahan dalam segala urusan dan kelancaran hidup',khasiat:['Kemudahan Urusan','Lancar Berbicara','Sukses dalam Negosiasi','Dijauhkan dari Musuh'],perawatan:'Bersihkan dengan bunga kenanga setiap Kamis malam, simpan berdiri tegak.',pesan_jawa:'Saben urusanmu bakal dadi gampang, kaya banyu kang mili saka gunung marang segara.',pesan_indo:'Setiap urusanmu akan menjadi mudah, bagaikan air yang mengalir dari gunung menuju samudra.',color:'#7A5A10',luk:0},
+  {range:[21,22],nama:'Kyai Setan Kober',jenis:'Keris Luk 11 — Tangguh Pajang',pamor:'Ngulit Semangka',maknaPamor:'Pelapis Baja — kekuatan tanpa kompromi dalam menghadapi rintangan hidup',khasiat:['Keberanian Luar Biasa','Tidak Gentar Musuh','Kemenangan dalam Persaingan','Jiwa Ksatria'],perawatan:'Mandikan dengan air mawar setiap malam Selasa Kliwon, letakkan di altar khusus.',pesan_jawa:'Nyalimu kuwat kaya wesi, ora ana sing bisa ngalahake yen siro wis mbukak tekadmu.',pesan_indo:'Keberanianmu sekuat besi, tidak ada yang bisa mengalahkanmu jika engkau telah membuka tekadmu.',color:'#7A1A1A',luk:11},
+  {range:[23,25],nama:'Bethok',jenis:'Keris Lurus Pendek — Tangguh Blambangan',pamor:'Putri Kinurung',maknaPamor:'Putri Terlindungi — kelembutan yang mengandung kekuatan tersembunyi di dalamnya',khasiat:['Kasih Sayang Tulus','Memikat Hati','Hubungan Asmara Lancar','Pesona Alami'],perawatan:'Simpan bersama bunga melati segar, ganti setiap Senin dan Kamis malam.',pesan_jawa:'Atinmu kang tulus iku kaya permata kang ora ternilai ing antarane bebatuan.',pesan_indo:'Hatimu yang tulus itu bagaikan permata yang tak ternilai di antara bebatuan.',color:'#7A1A5A',luk:0},
+  {range:[26,30],nama:'Kyai Nagasasra',jenis:'Keris Luk 13 — Tangguh Mataram Sultan Agung',pamor:'Naga Siluman',maknaPamor:'Naga Gaib — kekuatan kosmis tertinggi yang bersumber dari langit dan bumi',khasiat:['Kekuatan Gaib Tertinggi','Derajat Mulia','Menguasai Ilmu Tinggi','Penjaga Pusaka'],perawatan:'Hanya boleh dibuka oleh yang empunya, dimandikan setahun sekali di malam 1 Suro dengan air tujuh sumber.',pesan_jawa:'Siro iku titising para leluhur kang mulia, gawa pusaka iki kanthi tanggung jawab kang agung.',pesan_indo:'Engkau adalah titisan para leluhur yang mulia, bawa pusaka ini dengan tanggung jawab yang agung.',color:'#1A1A7A',luk:13}
+];
+
+// ===== STATE =====
+let currentStep = 0;
+let selectedPayment = 'DANA';
+let userName = '';
+let wetonInfo = null;
+let kerisResult = null;
+
+// ===== UTILS =====
+function getPasaran(dateStr) {
+  const d = new Date(dateStr);
+  const ref = new Date(2000, 0, 1);
+  const diff = Math.floor((d - ref) / 86400000);
+  return PASARAN[((diff % 5) + 5) % 5];
+}
+
+function getKeris(total) {
+  return KERIS_DB.find(k => total >= k.range[0] && total <= k.range[1]) || KERIS_DB[KERIS_DB.length - 1];
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toastEl');
+  t.textContent = msg;
+  t.classList.remove('hidden');
+  setTimeout(() => t.classList.add('hidden'), 2500);
+}
+
+function showLoading(text) {
+  document.getElementById('loadingText').textContent = text;
+  document.getElementById('loadingOverlay').classList.remove('hidden');
+}
+
+function hideLoading() {
+  document.getElementById('loadingOverlay').classList.add('hidden');
+}
+
+function setStep(n) {
+  [0,1,2].forEach(i => {
+    document.getElementById('step'+i).classList.toggle('hidden', i !== n);
+    const dot = document.getElementById('dot'+i);
+    dot.classList.toggle('active', i === n);
+    dot.classList.toggle('done', i < n);
+  });
+  currentStep = n;
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ===== PAYMENT =====
+function selectPayment(method) {
+  selectedPayment = method;
+  document.getElementById('payDANA').classList.toggle('active', method === 'DANA');
+  document.getElementById('payOVO').classList.toggle('active', method === 'OVO');
+}
+
+function handleFile(e) {
+  const f = e.target.files[0];
+  if (!f) return;
+  document.getElementById('fileUploadArea').classList.add('hidden');
+  document.getElementById('uploadedPreview').classList.remove('hidden');
+  document.getElementById('uploadedName').textContent = f.name + ' — Siap dikirim';
+}
+
+function handlePayment() {
+  const nama = document.getElementById('inputNama').value.trim();
+  const hasFile = !document.getElementById('uploadedPreview').classList.contains('hidden');
+  if (!nama) return showToast('Masukkan nama Anda terlebih dahulu');
+  if (!hasFile) return showToast('Upload bukti transfer terlebih dahulu');
+  userName = nama;
+  showLoading('Membuka pintu pusaka...');
+  setTimeout(() => {
+    hideLoading();
+    document.getElementById('greetNama').textContent = userName;
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('inputTanggal').max = today;
+    setStep(1);
+  }, 2600);
+}
+
+// ===== WETON =====
+function hitungWeton() {
+  const val = document.getElementById('inputTanggal').value;
+  if (!val) return;
+  const d = new Date(val);
+  const hari = HARI_NEPTU[d.getDay()];
+  const pasaran = getPasaran(val);
+  const total = hari.neptu + pasaran.neptu;
+  document.getElementById('rHariNeptu').textContent = hari.neptu;
+  document.getElementById('rHariNama').textContent = hari.nama;
+  document.getElementById('rPasaranNeptu').textContent = pasaran.neptu;
+  document.getElementById('rPasaranNama').textContent = pasaran.nama;
+  document.getElementById('rTotalNeptu').textContent = total;
+  document.getElementById('rWetonFull').textContent = hari.nama + ' ' + pasaran.nama;
+  document.getElementById('rNeptuSub').textContent = 'NEPTU ' + hari.neptu + ' + ' + pasaran.neptu + ' = ' + total;
+  document.getElementById('wetonResult').classList.remove('hidden');
+  wetonInfo = {hari, pasaran, total};
+}
+
+function handleWeton() {
+  if (!document.getElementById('inputTanggal').value) return showToast('Pilih tanggal lahir Anda');
+  if (!wetonInfo) return showToast('Pilih tanggal lahir Anda');
+  showLoading('Membaca wangsit pusaka...');
+  setTimeout(() => {
+    kerisResult = getKeris(wetonInfo.total);
+    renderResult();
+    hideLoading();
+    setStep(2);
+  }, 3200);
+}
+
+// ===== RENDER RESULT =====
+function buildKerisSVG(color, luk) {
+  const w = 90, h = 250, cx = w / 2;
+  let bladePath = '';
+  if (luk === 0) {
+    bladePath = `<path d="M${cx},10 L${cx-5},28 L${cx-4},${h-64} L${cx},${h-62} L${cx+4},${h-64} L${cx+5},28 Z" fill="url(#blade)" filter="url(#glow)"/>`;
+  } else {
+    const segs = Math.min(luk, 9);
+    const segH = (h - 82) / segs;
+    const amp = 7;
+    let fwd = `M${cx},12 `;
+    for (let i = 0; i < segs; i++) {
+      const y2 = 12 + (i + 1) * segH;
+      const off = (i % 2 === 0 ? 1 : -1) * amp;
+      fwd += `Q${cx + off * 2},${12 + i * segH + segH * 0.5} ${cx + off},${y2} `;
+    }
+    fwd += `L${cx},${h-65} `;
+    let bwd = `L${cx-3},${h-65} `;
+    for (let i = segs - 1; i >= 0; i--) {
+      const y1 = 12 + i * segH;
+      const off = (i % 2 === 0 ? 1 : -1) * (-amp);
+      bwd += `Q${cx + off * 2},${y1 + segH * 0.5 + 3} ${cx + off - 2},${y1 + 3} `;
+    }
+    bwd += `L${cx-3},14 Z`;
+    bladePath = `<path d="${fwd}${bwd}" fill="url(#blade)" filter="url(#glow)"/>`;
+  }
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="blade" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8C97A"/>
+      <stop offset="40%" stop-color="${color}"/>
+      <stop offset="100%" stop-color="#1A0D00"/>
+    </linearGradient>
+    <linearGradient id="hndl" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2A1608"/>
+      <stop offset="50%" stop-color="#5A2E10"/>
+      <stop offset="100%" stop-color="#2A1608"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect x="${cx-13}" y="${h-62}" width="26" height="7" rx="2" fill="url(#hndl)"/>
+  <rect x="${cx-8}" y="${h-55}" width="16" height="46" rx="3" fill="url(#hndl)"/>
+  <rect x="${cx-5}" y="${h-51}" width="10" height="38" rx="2" fill="rgba(201,168,76,0.13)"/>
+  ${bladePath}
+  <line x1="${cx-1}" y1="18" x2="${cx-1}" y2="${h-67}" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <ellipse cx="${cx}" cy="13" rx="3" ry="4" fill="#E8C97A" opacity="0.9"/>
+  </svg>`;
+}
+
+function renderResult() {
+  const k = kerisResult;
+  const w = wetonInfo;
+  document.getElementById('rNamaUser').textContent = userName;
+  document.getElementById('rWetonSub').textContent = `Weton ${w.hari.nama} ${w.pasaran.nama} · Neptu ${w.total}`;
+  document.getElementById('kerisSVGwrap').innerHTML = buildKerisSVG(k.color, k.luk);
+  document.getElementById('rKerisNama').textContent = 'Keris ' + k.nama;
+  document.getElementById('rKerisJenis').textContent = k.jenis;
+  document.getElementById('rPamor').textContent = k.pamor;
+  document.getElementById('rMaknaPamor').textContent = k.maknaPamor;
+  const tags = document.getElementById('rKhasiat');
+  tags.innerHTML = k.khasiat.map(x => `<span class="khasiat-tag">${x}</span>`).join('');
+  document.getElementById('rPerawatan').textContent = k.perawatan;
+  document.getElementById('rPesanJawa').textContent = '"' + k.pesan_jawa + '"';
+  document.getElementById('rPesanIndo').textContent = '— ' + k.pesan_indo;
+}
+
+// ===== SHARE =====
+function shareWA() {
+  if (!kerisResult || !wetonInfo) return;
+  const text = `✨ WETON SAYA BICARA ✨\n\n📅 Hari: ${wetonInfo.hari.nama} ${wetonInfo.pasaran.nama}\n🔢 Neptu: ${wetonInfo.total}\n\n⚔️ Keris Pusaka Saya: *${kerisResult.nama}*\n📿 Pamor: ${kerisResult.pamor}\n🌟 Khasiat: ${kerisResult.khasiat.join(', ')}\n\n🙏 "${kerisResult.pesan_indo}"\n\nCek keris pusaka sesuai wetonmu di:\nhttps://keris-weton.app`;
+  window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+}
+function shareTwitter() {
+  if (!kerisResult) return;
+  const text = `Keris pusaka saya berdasarkan weton adalah ${kerisResult.nama} dengan pamor ${kerisResult.pamor}! ✨⚔️ #WetonJawa #PusakaJawa #KerisWeton`;
+  window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text), '_blank');
+}
+function shareFB() {
+  window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent('https://keris-weton.app'), '_blank');
+}
+function copyLink() {
+  navigator.clipboard.writeText('https://keris-weton.app').then(() => showToast('Link berhasil disalin! ✓'));
+}
+function copyCard() {
+  if (!kerisResult || !wetonInfo) return;
+  const text = `⚔️ KERIS PUSAKA SAYA ⚔️\n\nNama: ${userName}\nWeton: ${wetonInfo.hari.nama} ${wetonInfo.pasaran.nama} (Neptu ${wetonInfo.total})\n\nKeris: ${kerisResult.nama}\nPamor: ${kerisResult.pamor}\n${kerisResult.maknaPamor}\n\nKhasiat: ${kerisResult.khasiat.join(' · ')}\n\n"${kerisResult.pesan_indo}"\n\n✦ keris-weton.app ✦`;
+  navigator.clipboard.writeText(text).then(() => showToast('Teks kartu berhasil disalin! ✓'));
+}
+function resetWeton() {
+  wetonInfo = null;
+  document.getElementById('inputTanggal').value = '';
+  document.getElementById('wetonResult').classList.add('hidden');
+  setStep(1);
+}
+</script>
+</body>
+</html>
