@@ -1,2 +1,3 @@
-# Aplikasi-web-jois
-Aplikasi untuk budaya keris
+
+https://keristayuhweton.netlify.app
+https://ramalanmistikologi.netlify.app
